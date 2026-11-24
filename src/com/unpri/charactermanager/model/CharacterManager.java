@@ -63,5 +63,17 @@ public Character findByName(String name) {
     public ArrayList<Character> getAllCharacters() {
         return new ArrayList<>(characterList);        // defensive copy — lihat Halaman 7 untuk eksperimen
     }
+public double getAverageLevel() {
+    if (characterList.isEmpty()) {
+        return 0;
+    }
 
+    int totalLevel = 0;
+
+    for (Character c : characterList) {
+        totalLevel += c.getLevel();
+    }
+
+    return (double) totalLevel / characterList.size();
+}
 }   // kurung kurawal penutup class CharacterManager
