@@ -1,60 +1,57 @@
-
 package com.unpri.charactermanager.view;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import java.util.ArrayList;
 import com.unpri.charactermanager.model.Character;
+import java.awt.BorderLayout;
+import java.awt.Font;
+import java.util.ArrayList;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 
-/**
- * Jendela utama aplikasi Character Manager.
- * Menampilkan daftar karakter dan statistik yang diterima dari luar.
- */
 public class MainWindow extends JFrame {
-
-    private JPanel mainPanel;
-    private ArrayList<Character> characterList;
+    private ArrayList<Character> characters;
     private double averageLevel;
 
-    public MainWindow(ArrayList<Character> characterList, double averageLevel) {
-        super("Character Manager v0.3");
-
-        this.characterList = characterList;
+    public MainWindow(ArrayList<Character> characters, double averageLevel) {
+        this.characters = characters;
         this.averageLevel = averageLevel;
 
-        initComponents();
-
-        setSize(500, 450);
+        setTitle("Character Manager");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(800, 600);
         setLocationRelativeTo(null);
-    }
+        setLayout(new BorderLayout(10, 10));
 
-    private void initComponents() {
-        mainPanel = new JPanel();
+        // Panel daftar karakter (bukan tabel)
+        JPanel listPanel = new JPanel();
+        listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
+        listPanel.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
 
-        JLabel titleLabel = new JLabel(
-            "=== Daftar Karakter (" + characterList.size() + ") ==="
-        );
-        mainPanel.add(titleLabel);
-
-        // Menampilkan daftar karakter secara dinamis
-        for (Character c : characterList) {
-            String info = c.getName() + " | " + c.getType()
-                        + " | Lv." + c.getLevel()
-                        + " | HP:" + c.getHitPoints()
-                        + " | ATK:" + c.getAttackPower();
-
-            JLabel characterLabel = new JLabel(info);
-            mainPanel.add(characterLabel);
+        if (characters != null) {
+            for (Character c : characters) {
+                JLabel itemLabel = new JLabel(
+                        "• " + c.getName() + " — " + c.getType() + " (Lv. " + c.getLevel() + ")"
+                );
+                itemLabel.setFont(new Font("SansSerif", Font.PLAIN, 15));
+                itemLabel.setBorder(BorderFactory.createEmptyBorder(6, 0, 6, 0));
+                listPanel.add(itemLabel);
+            }
         }
 
-        // JLabel statistik rata-rata level
-        JLabel averageLabel = new JLabel(
-            "Rata-rata Level: " + String.format("%.1f", averageLevel)
-        );
-        mainPanel.add(averageLabel);
+        JScrollPane scrollPane = new JScrollPane(listPanel);
+        add(scrollPane, BorderLayout.CENTER);
 
-        add(mainPanel);
+        // Ringkasan di bawah
+        int totalCount = (characters != null) ? characters.size() : 0;
+        JLabel infoLabel = new JLabel(
+                "Total Karakter: " + totalCount + " | Rata-rata Level: " + String.format("%.2f", averageLevel),
+                SwingConstants.CENTER
+        );
+        infoLabel.setBorder(BorderFactory.createEmptyBorder(8, 10, 12, 10));
+        add(infoLabel, BorderLayout.SOUTH);
     }
 }

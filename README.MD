@@ -385,3 +385,247 @@ Link Google Docs:
 (https://docs.google.com/document/d/1HUeWjLftskILc-ugDS0gc9JHdNEDlhJl/edit?usp=drivesdk&ouid=112205440563882970961&rtpof=true&sd=true)
 
 
+## Character Manager – Sprint #4
+TP10: Modifikasi Properti Komponen
+
+Nama: Louren Kristin br Brahmana
+NIM: 253303621270
+Mata Kuliah: Java Visual 
+Program Studi: Sistem Informasi
+Universitas: Universitas Prima Indonesia
+Dosen Pengampu: Dr. Evta Indra
+
+1. Deskripsi Project
+
+Character Manager Sprint #4 merupakan pengembangan aplikasi desktop berbasis Java Swing yang melanjutkan project dari Sprint #3.
+
+Pada tahap ini, aplikasi dikembangkan dengan menambahkan pengaturan tema menggunakan class AppTheme.java. Pengaturan tersebut meliputi warna, font, dan border agar tampilan aplikasi lebih menarik, konsisten, dan mudah dikelola.
+
+Selain itu, setiap kartu karakter memiliki warna background berdasarkan role masing-masing. Aplikasi juga menggunakan GridLayout untuk menyusun daftar karakter secara vertikal dan pack() untuk menyesuaikan ukuran jendela berdasarkan komponen yang terdapat di dalamnya.
+
+Pengembangan ini menerapkan konsep Object-Oriented Programming (OOP), JavaBeans Properties, dan prinsip Model-View-Controller (MVC).
+
+2. Tujuan Praktikum
+
+Tujuan praktikum TP10 adalah:
+
+Memahami penggunaan getter dan setter pada komponen Java Swing.
+Memahami pengaturan properti warna, font, dan border.
+Membuat class AppTheme untuk mengelola tema aplikasi.
+Mengatur warna kartu karakter berdasarkan role.
+Memahami penggunaan setOpaque(true) pada JLabel.
+Memahami perbedaan setSize(), setPreferredSize(), dan pack().
+Menggunakan logical font dan deriveFont().
+Mempertahankan pemisahan tanggung jawab antara Model dan View.
+3. Teknologi yang Digunakan
+Bahasa Pemrograman: Java
+GUI Framework: Java Swing
+IDE: Visual Studio Code
+Layout Manager: GridLayout
+Version Control: Git dan GitHub
+Konsep: OOP, MVC, JavaBeans Properties
+4. Struktur Project
+text
+JavaVisual-253303621270/
+│
+├── src/
+│   ├── Main.java
+│   │
+│   └── com/
+│       └── unpri/
+│           └── charactermanager/
+│               ├── model/
+│               │   ├── Character.java
+│               │   ├── CharacterType.java
+│               │   └── CharacterManager.java
+│               │
+│               └── view/
+│                   ├── MainWindow.java
+│                   └── AppTheme.java
+│
+├── outputtt.png
+├── outputTP05.png
+├── SESUDAH+CHARACTER.png
+├── 
+└── README.md
+
+
+Keterangan:
+
+Main.java: Menjalankan aplikasi dan menyiapkan data karakter.
+Character.java: Menyimpan informasi karakter.
+CharacterType.java: Menentukan tipe karakter.
+CharacterManager.java: Mengelola kumpulan karakter.
+MainWindow.java: Menampilkan antarmuka aplikasi menggunakan Java Swing.
+AppTheme.java: Mengatur warna, font, dan border aplikasi.
+README.md: Dokumentasi project.
+5. Implementasi TP10
+A. AppTheme.java
+
+Pada Sprint #4 dibuat class AppTheme.java di dalam package view.
+
+Class ini digunakan untuk mengatur tema aplikasi agar pengaturan tampilan tidak ditulis berulang kali di MainWindow.java.
+
+AppTheme memiliki beberapa tanggung jawab:
+
+Menyediakan minimal tiga warna.
+Menyediakan minimal tiga jenis font.
+Menyediakan minimal satu border.
+Menyediakan method colorFor() untuk menentukan warna berdasarkan role karakter.
+Menyediakan method describe() untuk memberikan deskripsi berdasarkan tipe karakter.
+
+Dengan adanya AppTheme, pengaturan tampilan aplikasi menjadi lebih terpusat dan mudah diperbarui.
+
+B. MainWindow.java Versi 0.4
+
+MainWindow.java merupakan class yang bertanggung jawab menampilkan daftar karakter.
+
+Class ini menggunakan inheritance:
+
+java
+public class MainWindow extends JFrame
+
+
+Jendela aplikasi menggunakan judul:
+
+java
+super("Character Manager v0.4");
+
+
+Untuk mengatur ukuran jendela, digunakan:
+
+java
+pack();
+setMinimumSize(new Dimension(420, 300));
+setLocationRelativeTo(null);
+
+
+Penggunaan pack() membuat ukuran jendela menyesuaikan kebutuhan komponen yang ada di dalamnya.
+
+C. Penggunaan GridLayout
+
+Panel utama menggunakan:
+
+java
+mainPanel = new JPanel(new GridLayout(0, 1, 0, 8));
+
+
+GridLayout tersebut mengatur komponen menjadi satu kolom dengan jumlah baris yang menyesuaikan jumlah komponen.
+
+Jarak vertikal antarkomponen adalah 8 pixel sehingga kartu karakter tersusun lebih rapi.
+
+D. Warna Kartu Berdasarkan Role
+
+Setiap kartu karakter mendapatkan warna berdasarkan tipe karakter menggunakan:
+
+java
+lbl.setBackground(AppTheme.colorFor(c.getType()));
+lbl.setOpaque(true);
+
+
+Method colorFor() mengambil tipe karakter dan menentukan warna yang sesuai.
+
+Penggunaan setOpaque(true) diperlukan agar warna background JLabel dapat terlihat.
+
+Dengan demikian, setiap karakter memiliki tampilan kartu yang berbeda sesuai role masing-masing.
+
+E. Pengaturan Font dan Border
+
+Pengaturan font menggunakan properti yang disediakan oleh AppTheme:
+
+java
+lbl.setFont(AppTheme.FONT_BODY);
+lbl.setForeground(AppTheme.TEXT_LIGHT);
+lbl.setBorder(AppTheme.CARD_BORDER);
+
+
+Judul menggunakan FONT_TITLE, sedangkan informasi karakter menggunakan FONT_BODY.
+
+Pengaturan ini membuat tampilan lebih konsisten karena warna, font, dan border dikelola melalui satu class tema.
+
+F. Tooltip dan Cursor
+
+Pada versi 0.4 ditambahkan dua properti tambahan:
+
+java
+lbl.setToolTipText(AppTheme.describe(c.getType()));
+
+lbl.setCursor(
+    Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)
+);
+
+
+Tooltip digunakan untuk memberikan informasi tambahan mengenai tipe karakter ketika pengguna mengarahkan kursor ke kartu.
+
+Cursor HAND_CURSOR digunakan agar kursor berubah menjadi bentuk tangan ketika diarahkan ke kartu karakter.
+
+Kedua properti tersebut membantu membuat tampilan aplikasi lebih informatif dan memberikan pengalaman penggunaan yang lebih interaktif.
+
+6. Properti Tambahan yang Digunakan
+
+Dua properti tambahan yang diterapkan pada Character Manager versi 0.4 adalah:
+
+1. Tooltip
+
+Tooltip digunakan untuk memberikan informasi tambahan mengenai role karakter.
+
+Alasannya adalah agar pengguna dapat mengetahui deskripsi tipe karakter tanpa harus menambahkan terlalu banyak teks pada tampilan utama.
+
+2. Hand Cursor
+
+Hand Cursor digunakan untuk mengubah bentuk kursor menjadi tangan ketika diarahkan ke kartu karakter.
+
+Alasannya adalah untuk memberikan petunjuk visual kepada pengguna bahwa kartu merupakan komponen yang dapat diperhatikan atau diarahkan dengan kursor.
+
+Catatan: Pada versi ini, kartu belum memiliki event klik. Perubahan cursor hanya berfungsi sebagai petunjuk visual.
+
+7. Penerapan Konsep MVC
+
+Aplikasi Character Manager menggunakan pemisahan tanggung jawab berdasarkan konsep Model-View-Controller.
+
+Model
+
+Model bertanggung jawab menyimpan dan mengelola data karakter, seperti nama, tipe, level, HP, dan attack power.
+
+View
+
+View bertanggung jawab menampilkan informasi karakter melalui komponen Java Swing.
+
+Pada Sprint #4, MainWindow.java dan AppTheme.java berada di package view.
+
+AppTheme mengatur tampilan aplikasi, sedangkan MainWindow menampilkan data karakter.
+
+Pemisahan ini bertujuan agar pengaturan tampilan tidak dicampurkan dengan pengelolaan data karakter.
+
+8. Hasil Implementasi
+A. Screenshot Sebelum (Versi 0.3)
+
+Screenshot ini menunjukkan tampilan Character Manager sebelum penerapan tema pada Sprint #4.
+
+!Character Manager v0.3
+
+## B. Screenshot Sesudah (Versi 0.4)
+
+Screenshot ini menunjukkan tampilan Character Manager setelah menggunakan AppTheme, pengaturan warna berdasarkan role, font, border, tooltip, dan cursor.
+![alt text](TP10.png)
+
+
+9. Alasan Warna Disimpan di AppTheme dan Bukan di Character
+
+Warna merupakan bagian dari tampilan antarmuka sehingga lebih tepat diletakkan pada AppTheme yang berada di package view.
+
+Class Character merupakan bagian dari Model yang bertugas menyimpan informasi utama karakter. Jika warna dimasukkan ke dalam Character, maka Model akan memiliki ketergantungan terhadap kebutuhan tampilan.
+
+Dengan menyimpan warna di AppTheme, perubahan desain dapat dilakukan tanpa mengubah class Character. Selain itu, pemisahan ini membuat struktur program lebih rapi, mudah dirawat, dan sesuai dengan prinsip MVC.
+
+10. Kesimpulan
+
+Melalui praktikum TP10 Character Manager Sprint #4, saya mempelajari cara mengatur properti komponen Java Swing agar tampilan aplikasi menjadi lebih menarik dan terstruktur.
+
+Saya memahami penggunaan getter dan setter, pengaturan background JLabel menggunakan setOpaque(true), penggunaan font, warna, border, serta pengaturan ukuran jendela menggunakan pack().
+
+Saya juga mempelajari pentingnya penggunaan class AppTheme untuk memisahkan pengaturan tampilan dari pengelolaan data karakter.
+
+Dengan penerapan konsep tersebut, aplikasi Character Manager versi 0.4 menjadi lebih 
+## DOCS
+[TP10](https://docs.google.com/document/d/10lwclQN3oqATZ8MMgYahcrJN3mVpS72FOpSf6rK1uUg/edit?usp=drive_link)
